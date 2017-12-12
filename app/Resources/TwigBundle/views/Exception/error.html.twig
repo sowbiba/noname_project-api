@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block bodyAttributes %} class="error-page"{% endblock bodyAttributes %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block head_style %}
+    {{ parent() }}
+
+    <link href="/css/errors.min.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% block flash %}{% endblock flash %}
+
+    <section class="content col-lg-12">
+        <div class="error-illu-box">
+            <span class="err-keep">Keep calm</span>
+            <span class="err-and">and</span>
+            <span class="err-go-back">
+                <a href="#" onclick="history.go(-1); return false;">
+                    go back
+                </a>
+            </span>
+            <span class="err-to-the">to the</span>
+            <span class="err-home">
+                {% set pathInfo = app.request.pathInfo %}
+            </span>
+        </div>
+
+         <div class="error-code-content">
+            <span class="code-text">{{ status_code }} {{ status_text }}</span>
+         </div>
+    </section>
+{% endblock %}

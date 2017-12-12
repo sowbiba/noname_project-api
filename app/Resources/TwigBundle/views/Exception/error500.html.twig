@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block bodyAttributes %} class="error-page"{% endblock bodyAttributes %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block head_style %}
+    {{ parent() }}
+
+    <link href="/css/errors.min.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% block flash %}{% endblock flash %}
+
+    <section class="content col-12">
+        <div class="error-content clearfix">
+            <div class="error-img error500"></div>
+            <div class="error-txt error-500">
+                <h1>Désolé, nous n'arrivons pas à répondre à votre requête</h1>
+
+                <h2>En général, cela signifie qu'une erreur inattendue s'est produite durant l'exécution de la requête. Vous pouvez :</h2>
+                <ul>
+                    <li><a href="{{ app.request.uri }}">Rafraîchir la page</a>, le problème est peut être temporaire</li>
+                    <li>Si le problème persiste, faire une demande auprès du service informatique</li>
+                </ul>
+                <p class="links">
+                    {% set pathInfo = app.request.pathInfo %}
+                    {% set url = path('back_homepage') %}
+
+                    <a href="{{ url }}">
+                        Retour à la page d'accueil
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

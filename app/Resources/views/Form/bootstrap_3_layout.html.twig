@@ -1,0 +1,71 @@
+{% extends "bootstrap_3_layout.html.twig" %}
+
+{% block form_label -%}
+    {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) %}
+
+    {% if label is not sameas(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}{% if required -%}&nbsp;<span>*</span>{% endif %}</label>
+    {%- endif %}
+{%- endblock form_label %}
+
+{% block checkbox_radio_label %}
+    {% if required %}
+        {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
+    {% endif %}
+    {% if parent_label_class is defined %}
+        {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) %}
+    {% endif %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+    {{ widget|default('')|raw }}
+    {{ label|trans({}, translation_domain) }}
+    </label>
+{% endblock checkbox_radio_label %}
+
+{% block form_row -%}
+    {% if attr['data-addon'] is defined %}
+        <div class="input-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+            <span class="input-group-addon">
+                <i class="{{ attr['data-addon'] }}"></i>
+            </span>
+
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    {% elseif attr['data-addon-text'] is defined %}
+        <div class="input-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        <span class="input-group-addon">
+            {{ attr['data-addon-text'] }}
+        </span>
+
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    {% else %}
+        <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+            {{ form_label(form) }}
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+{%- endblock form_row %}

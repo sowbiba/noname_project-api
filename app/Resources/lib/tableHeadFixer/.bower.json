@@ -1,0 +1,13 @@
+{
+  "name": "tableHeadFixer",
+  "homepage": "https://github.com/lai32290/TableHeadFixer",
+  "_release": "1283896174",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "1283896174b2a8a4ebb628279312e19f2a213500"
+  },
+  "_source": "https://github.com/lai32290/TableHeadFixer.git",
+  "_target": "*",
+  "_originalSource": "lai32290/TableHeadFixer"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "egg.js",
+  "main": "egg.js",
+  "homepage": "https://github.com/mikeflynn/egg.js",
+  "authors": [
+    "Mike Flynn <mfflynn@gmail.com>",
+    "Rob McVey <mcvey.rob@gmail.com>"
+  ],
+  "description": "A simple javascript library to add easter eggs to web pages.",
+  "keywords": [
+    "easter eggs",
+    "konami code"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "fd06eb9b0d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "fd06eb9b0d3c096e3f20ef238eaa95296f42af39"
+  },
+  "_source": "https://github.com/mikeflynn/egg.js.git",
+  "_target": "*",
+  "_originalSource": "mikeflynn/egg.js"
+}

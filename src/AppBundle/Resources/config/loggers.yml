@@ -1,0 +1,6 @@
+services:
+    app.logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: ['applog', ['@monolog.handler.applog']]
+        tags:
+            - { name: monolog.logger, channel: app }

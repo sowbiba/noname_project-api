@@ -1,0 +1,51 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ADMIN: MEMBER
+        BACK: [MEMBER, ADMIN]
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        app_chain_provider:
+            chain:
+                providers: [database_token_provider]
+        database_token_provider:
+            id: app.security.user_provider.database_token
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/(login-check)
+            security: false
+
+        doc:
+            pattern:  ^/api/doc
+            security: false
+
+        app:
+           pattern: ^/
+           entry_point: app.security.entry_point
+           stateless: true
+           guard:
+              authenticators:
+                - app.security.token_authenticator
+           provider: app_chain_provider
+
+    access_control:
+        - { path: ^/, roles: ROLE_ADMIN }
+
+    # activate different ways to authenticate
+
+    # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+    #http_basic: ~
+
+    # https://symfony.com/doc/current/security/form_login_setup.html
+    #form_login: ~

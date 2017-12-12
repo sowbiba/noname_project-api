@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+{% block html %}
+    <head>
+        {% block head %}
+            {% block meta %}
+                <meta charset="UTF-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <meta name="description" content="Noname"/>
+                <meta name="keywords" content="Noname"/>
+                <meta name="author" content="Ibrahima SOW <sowbiba@hotmail.com>"/>
+                <meta name="robots" content="noindex,nofollow"/>
+            {% endblock meta %}
+
+            <title>{% block pageTitle %}Profideo {% block pageSubTitle %}{% endblock %}{% endblock %}</title>
+            <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+            {% block head_style %}
+
+                <link rel="stylesheet" href="/css/main.css" type="text/css">
+            {% endblock head_style %}
+        {% endblock head %}
+    </head>
+    <body{% block bodyAttributes %}{% endblock %}>
+    {% block body %}
+        {% block loader %}{% endblock loader %}
+
+        {% block navbar %}{% endblock navbar %}
+
+    {% block container %}
+        <div id="content_container" class="{% block container_class %}container{% endblock container_class %}">
+            {% block header %}{% endblock header %}
+
+            <div class="content">
+                {% block page_header %}
+                    <div class="header">
+                        <div class="page-header">
+                            {% block breadcrumb %}{% endblock breadcrumb %}
+                            <h1>{% block headline %}Broadcast{% endblock headline %}</h1>
+                        </div>
+
+                        {% block header_actions %}{% endblock header_actions %}
+                    </div>
+                {% endblock page_header %}
+
+                {% block flash %}
+                    {% include 'Form/flash_messages.html.twig' %}
+                {% endblock flash %}
+
+                {% block content_row %}
+                    {% block content %}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {% block content_content %}{% endblock content_content %}
+                            </div>
+                        </div>
+                    {% endblock content %}
+                {% endblock content_row %}
+            </div>
+
+            <footer>
+                {% block footer %}{% endblock footer %}
+            </footer>
+        </div>
+    {% endblock container %}
+
+        {% block popin_confirm %}
+            {% embed ":Components:confirm.html.twig" %}{% endembed %}
+        {% endblock popin_confirm %}
+
+    {% block foot_script %}
+        <script src="/js/jquery.js"></script>
+        <script src="/js/bootstrap.js"></script>
+    {% endblock foot_script %}
+
+    {% endblock body %}
+    </body>
+{% endblock html %}
+</html>

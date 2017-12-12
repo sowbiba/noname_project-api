@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block bodyAttributes %} class="error-page"{% endblock bodyAttributes %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block head_style %}
+    {{ parent() }}
+
+    <link href="/css/errors.min.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% block flash %}{% endblock flash %}
+
+    <section class="content col-12">
+        <div class="error-content clearfix">
+            <div class="error-img error-404"></div>
+            <div class="error-txt error-404">
+            {% if app.user and is_granted('ROLE_BACK') and exception.class is same as('Pfd\\BackBundle\\Exception\\HttpException') %}
+                {% set message = exception.message|json_decode %}
+
+                <h1>Désolé, la page que vous demandez est introuvable</h1>
+
+                <h2>Cause remontée :</h2>
+                <ul>
+                    <li>{{ message.message }}</li>
+                </ul>
+
+                <p><small>Si ce message d'erreur n'est pas normal, merci de contacter le service informatique
+                en fournissant cette référence :</small> <strong>{{ message.logref }}</strong></p>
+            {% else %}
+                <h1>Désolé, la page que vous demandez est introuvable</h1>
+
+                <h2>Causes possibles :</h2>
+                <ul>
+                    <li>Votre lien (favori) est trop vieux</li>
+                    <li>La ressource concernée n'existe plus (Assureur, Garantie, Formule, …)</li>
+                </ul>
+                <p class="links">
+                    {% set pathInfo = app.request.pathInfo %}
+                    {% set url = path('back_homepage') %}
+
+                    <a href="{{ url }}">
+                        Retour à la page d'accueil
+                    </a>
+                </p>
+            {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

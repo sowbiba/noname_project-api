@@ -1,0 +1,42 @@
+parameters:
+    app_dir: '%kernel.root_dir%/../app'
+
+services:
+    app.security.entry_point:
+        class: AppBundle\Security\ApiEntryPoint
+
+    app.security.user_provider.config_token:
+        class: AppBundle\Security\UserProvider\ConfigTokenUserProvider
+        arguments:
+            - "@app.security.token_policy"
+            - '@request_stack'
+            - "@=service('app.manager.role').getRepository()"
+            - '@app.logger'
+
+    app.security.user_provider.database_token:
+        class: AppBundle\Security\UserProvider\DatabaseTokenUserProvider
+        arguments:
+            - "@=service('app.manager.user').getRepository()"
+            - '@app.logger'
+
+    app.security.token_authenticator:
+        class: AppBundle\Security\TokenAuthenticator
+
+
+    app.security.token_policy:
+        class: AppBundle\Security\Policy\TokenPolicy
+        arguments:
+            - true
+            - '%tokens%'
+        public: true
+
+#    app.security.password_encoder:
+#        class: AppBundle\Security\PasswordEncoder
+#
+    app.security.api_voter:
+        class: AppBundle\Security\ApiVoter
+        arguments:
+          - '%security.role_hierarchy.roles%'
+        public: true
+        tags:
+            - { name: security.voter }

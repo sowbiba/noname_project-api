@@ -1,0 +1,72 @@
+services:
+    app.manager.user:
+        class: AppBundle\Manager\UserManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - "user"
+        shared: false
+    app.manager.role:
+        class: AppBundle\Manager\RoleManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - role
+        shared: true
+        public: true
+
+    app.manager.delivery_type:
+        class: AppBundle\Manager\DeliveryTypeManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - delivery_type
+        shared: false
+
+    app.manager.product_type:
+        class: AppBundle\Manager\ProductTypeManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - product_type
+        shared: false
+
+    app.manager.product:
+        class: AppBundle\Manager\ProductManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - product
+        shared: false
+
+    app.manager.stock:
+        class: AppBundle\Manager\StockManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - stock
+        shared: false
+
+    app.manager.command:
+        class: AppBundle\Manager\CommandManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - command
+        shared: false
+
+    app.manager.cart:
+        class: AppBundle\Manager\CartManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - cart
+        shared: false
+
+    app.manager.cart_detail:
+        class: AppBundle\Manager\CartDetailManager
+        factory: ['@app.manager.factory', get]
+        arguments:
+            - '@service_container'
+            - cart_detail
+        shared: false

@@ -1,0 +1,35 @@
+authentication:
+    type: rest
+    resource: AppBundle\Controller\AuthenticationController
+
+delivery_type:
+    type: rest
+    resource: AppBundle\Controller\DeliveryTypeController
+
+product_type:
+    type: rest
+    resource: AppBundle\Controller\ProductTypeController
+
+user:
+    type: rest
+    resource: AppBundle\Controller\UserController
+
+role:
+    type: rest
+    resource: AppBundle\Controller\RoleController
+
+product:
+    type: rest
+    resource: AppBundle\Controller\ProductController
+
+stock:
+    type: rest
+    resource: AppBundle\Controller\StockController
+
+command:
+    type: rest
+    resource: AppBundle\Controller\CommandController
+
+cart:
+    type: rest
+    resource: AppBundle\Controller\CartController

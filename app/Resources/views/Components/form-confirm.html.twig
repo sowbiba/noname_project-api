@@ -1,0 +1,55 @@
+{% form_theme form '::Form/bootstrap_3_layout.html.twig' %}
+
+<div id="{{ confirmId }}" class="modal fade form-confirm text-left" role="dialog" aria-labelledby="labelledBy-popin-confirm" aria-hidden="true">
+    <div class="modal-dialog {% if modalAdditionalClass is defined %}{{ modalAdditionalClass }}{% endif %}">
+        <div class="modal-content">
+            {% block form_start %}
+                {{ form_start(form, {'action': action}) }}
+            {% endblock %}
+            <div class="modal-header">
+                <p class="h4 modal-title" id="labelledBy-popin-confirm">
+                    {{ title|default('Merci de confirmer') }}
+                </p>
+            </div>
+            <div class="modal-body">
+                {% block form_confirm_body %}
+                    {% if message is not empty %}<p>{{ message|raw }}</p><hr>{% endif %}
+
+                    {% for field in form.children %}
+                        {{ form_row(field) }}
+                    {% endfor %}
+                {% endblock %}
+            </div>
+            {% block modal_footer %}
+                <div class="modal-footer">
+
+                    {% block cancel_button %}
+                        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">
+                            {% block cancel_button_label %}
+                                {{ cancel|default('Non') }}
+                            {% endblock cancel_button_label %}
+                        </button>
+                    {% endblock cancel_button %}
+
+                    {% block confirm_button %}
+                        <button
+                                type="submit"
+                                class="btn btn-primary tip-top"
+                                data-closed="{{ closed is defined ? closed : false }}"
+                                data-disabled="{{ disabled is defined ? disabled : true }}"
+                                title="{% block confirm_button_tooltip %}{% endblock confirm_button_tooltip %}"
+                        >
+                            {% block confirm_button_label %}
+                                {{ submit|default('Oui') }}
+                            {% endblock confirm_button_label %}
+                        </button>
+                    {% endblock confirm_button %}
+                </div>
+            {% endblock modal_footer %}
+
+            {% block form_end %}
+                {{ form_end(form) }}
+            {% endblock %}
+        </div>
+    </div>
+</div>

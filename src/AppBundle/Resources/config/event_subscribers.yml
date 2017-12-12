@@ -1,0 +1,5 @@
+services:
+    app.event.subscriber.user:
+        class: AppBundle\Event\Subscriber\UserSubscriber
+        tags:
+            - { name: doctrine.event_subscriber }

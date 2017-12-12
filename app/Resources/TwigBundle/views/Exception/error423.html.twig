@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block meta %}
+    {{ parent() }}
+
+    <meta http-equiv="refresh" content="5">
+{% endblock meta %}
+{% block bodyAttributes %} class="error-page"{% endblock bodyAttributes %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block head_style %}
+    {{ parent() }}
+
+    <link href="/css/errors.min.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content_content %}
+    {{ parent() }}
+
+    {% block flash %}{% endblock flash %}
+
+    <section class="content col-12">
+        <div class="error-content clearfix">
+            <div class="error-img error500"></div>
+            <div class="error-txt error-500">
+                {% if exception.message is defined %}
+                    {% if exception.message|json_decode is iterable %}
+                        {% set messageArray = exception.message|json_decode %}
+                        {% if messageArray.message is defined and messageArray.message != '' %}
+                            {{ messageArray.message|trans({}, 'back')|raw }}
+                        {% endif %}
+                        {% if messageArray.logref is defined and messageArray.logref != '' %}
+                            <br><br>
+                            <p>
+                                <small>
+                                    Si ce message d'erreur n'est pas normal, merci de contacter le service informatique
+                                    en fournissant cette référence :
+                                </small>
+                                <strong>{{ messageArray.logref }}</strong>
+                            </p>
+
+                        {% endif %}
+                    {% else %}
+                        {% if exception.message != '' %}
+                            {{ exception.message|trans({}, 'back')|raw }}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <h1>Désolé, la page que vous demandez est verrouillée.</h1>
+                    <h2>Causes possibles :</h2>
+                    <ul>
+                        <li>Un processus long est très certainement en cours.<br>Veuillez patienter quelques instants ou contacter un administrateur si le temps d'attente est trop long.</li>
+                    </ul>
+                {% endif %}
+
+                <br>
+                <p class="links">
+                    {% set pathInfo = app.request.pathInfo %}
+                    {% set url = path('back_homepage') %}
+
+                    <a href="{{ url }}">
+                        Retour à la page d'accueil
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

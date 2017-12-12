@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block bodyAttributes %} class="error-page"{% endblock bodyAttributes %}
+
+{% block header %}{% endblock %}
+{% block page_header %}{% endblock %}
+
+{% block head_style %}
+    {{ parent() }}
+
+    <link href="/css/errors.min.css" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content_content %}
+    {{ parent() }}
+
+    {% block flash %}{% endblock flash %}
+
+    <section class="content col-12">
+        <div class="error-content clearfix">
+            <div class="error-img error-403"></div>
+            <div class="error-txt error-403">
+                <h1>Désolé, la page demandée n'est pas accessible.</h1>
+
+                <p class="links">
+                    {% set pathInfo = app.request.pathInfo %}
+
+                    {# We don't use the route here because it will be prefixed by `draft`|`demo` and this page error is
+                     displayed when the user can't access a specific zone (or the back) #}
+                    {% set url = '/' %}
+                    <a href="{{ url }}">
+                        Retour à la page d'accueil
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

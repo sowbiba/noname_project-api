@@ -46,3 +46,4 @@
 
 # Vendors
 vendor/*
+node_modules/*

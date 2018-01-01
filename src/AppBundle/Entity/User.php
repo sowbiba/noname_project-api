@@ -5,12 +5,10 @@ namespace AppBundle\Entity;
 use AppBundle\Model\FilterableInterface;
 use AppBundle\Model\PaginatableInterface;
 use AppBundle\Model\SortableInterface;
-use AppBundle\ParamConverter\CollectionParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Intl\Exception\NotImplementedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -133,13 +131,6 @@ class User implements UserInterface, FilterableInterface, SortableInterface, Pag
      * @var \DateTime
      *
      * @ORM\Column(name="birthdate", type="datetime", nullable=true)
-     *
-     * @Serializer\Expose
-     * @Serializer\Groups({
-     *      "users_create",
-     *      "users_read",
-     *      "users_update",
-     * })
      */
     private $birthdate;
 
@@ -374,12 +365,19 @@ class User implements UserInterface, FilterableInterface, SortableInterface, Pag
     /**
      * Set birthdate
      *
-     * @param \DateTime $birthdate
+     * @param $birthdate
      *
      * @return User
      */
     public function setBirthdate($birthdate)
     {
+        if (
+            ! $birthdate instanceof \DateTime &&
+            sizeof(explode("/", $birthdate)) > 1
+        ) {
+           $birthdate = \DateTime::createFromFormat("d/m/Y", $birthdate);
+        }
+
         $this->birthdate = $birthdate;
 
         return $this;
@@ -389,10 +387,18 @@ class User implements UserInterface, FilterableInterface, SortableInterface, Pag
      * Get birthdate
      *
      * @return \DateTime
+     *
+     * @Serializer\VirtualProperty(name="birthdate")
+     * @Serializer\Expose
+     * @Serializer\Groups({
+     *      "users_create",
+     *      "users_read",
+     *      "users_update",
+     * })
      */
     public function getBirthdate()
     {
-        return $this->birthdate;
+        return (null !== $this->birthdate && $this->birthdate instanceof \Datetime) ? $this->birthdate->format('d/m/Y') : null;
     }
 
     /**

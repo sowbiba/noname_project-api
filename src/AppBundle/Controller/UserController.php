@@ -342,7 +342,7 @@ class UserController extends ApiController
      *         },
      *         {
      *             "name"="birthdate",
-     *             "dataType"="string",
+     *             "dataType"="integer",
      *             "description"="Birthdate of the user. Format dd/mm/yy.",
      *             "required"=false,
      *         },

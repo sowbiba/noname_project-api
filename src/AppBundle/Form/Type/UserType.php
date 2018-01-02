@@ -4,6 +4,8 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * FormType used to manage the creation and the update of users.
@@ -17,7 +19,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('active', 'Symfony\Component\Form\Extension\Core\Type\CheckboxType')
+            ->add('active', 'AppBundle\Form\Type\BooleanType')
             ->add('firstname', 'Symfony\Component\Form\Extension\Core\Type\TextType')
             ->add('lastname', 'Symfony\Component\Form\Extension\Core\Type\TextType')
             ->add('phone', 'Symfony\Component\Form\Extension\Core\Type\TextType')
@@ -28,6 +30,7 @@ class UserType extends AbstractType
                 [
                     'format' => 'dd/MM/yyyy',
                     'widget' => 'single_text',
+                    'input' => 'string',
                 ]
             )
             ->add('email',      'Symfony\Component\Form\Extension\Core\Type\EmailType')

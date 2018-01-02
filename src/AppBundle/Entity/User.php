@@ -371,11 +371,10 @@ class User implements UserInterface, FilterableInterface, SortableInterface, Pag
      */
     public function setBirthdate($birthdate)
     {
-        if (
-            ! $birthdate instanceof \DateTime &&
-            sizeof(explode("/", $birthdate)) > 1
-        ) {
-           $birthdate = \DateTime::createFromFormat("d/m/Y", $birthdate);
+        if (!$birthdate instanceof \DateTime && null !== $birthdate) {
+            $format = preg_match('/.*\/.*\/.*/', $birthdate) ? 'd/m/Y' : 'Y-m-d';
+            $birthdate = \DateTime::createFromFormat($format, $birthdate);
+            $birthdate->setTime(0, 0, 0);
         }
 
         $this->birthdate = $birthdate;
@@ -398,7 +397,7 @@ class User implements UserInterface, FilterableInterface, SortableInterface, Pag
      */
     public function getBirthdate()
     {
-        return (null !== $this->birthdate && $this->birthdate instanceof \Datetime) ? $this->birthdate->format('d/m/Y') : null;
+        return (null !== $this->birthdate && $this->birthdate instanceof \Datetime) ? $this->birthdate->format('Y-m-d') : null;
     }
 
     /**

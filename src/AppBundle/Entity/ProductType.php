@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\FilterableInterface;
+use AppBundle\Model\PaginatableInterface;
+use AppBundle\Model\SortableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -16,8 +19,9 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("all")
  *
  */
-class ProductType
+class ProductType implements FilterableInterface, SortableInterface, PaginatableInterface
 {
+    const DEFAULT_PAGINATION_NUM_ITEMS = PaginatableInterface::DEFAULT_NUM_ITEMS;
     /**
      * @var int
      *
@@ -106,6 +110,45 @@ class ProductType
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDefaultSortOrder()
+    {
+        return [
+            'id' => SortableInterface::SORT_ORDER_ASC,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOrdersMapping()
+    {
+        return [
+            'id' => ['field' => 'id'],
+        ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultPaginationNumItems()
+    {
+        return static::DEFAULT_PAGINATION_NUM_ITEMS;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getFiltersMapping()
+    {
+        return [
+            'id' => ['field' => 'id'],
+            'name' => ['field' => 'name'],
+        ];
     }
 }
 

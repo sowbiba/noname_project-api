@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS product (
   product_type_id INT NOT NULL,
   name VARCHAR(255) NOT NULL,
   price DECIMAL(20,9) NOT NULL,
-  description TEXT NOT NULL,
+  description TEXT NULL,
   photo_file VARCHAR(255) DEFAULT NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,
@@ -35,7 +35,6 @@ ALTER TABLE product ADD CONSTRAINT FK_D34A04AD14959723 FOREIGN KEY (product_type
 SQL;
 
         $this->addSql($sql);
-
 
     }
 

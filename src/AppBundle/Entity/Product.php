@@ -2,6 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Model\FilterableInterface;
+use AppBundle\Model\PaginatableInterface;
+use AppBundle\Model\SortableInterface;
+use AppBundle\ParamConverter\CollectionParamConverter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -16,8 +20,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Serializer\AccessorOrder("custom", custom = {"id", "name", "productType", "price", "photoFile"})
  * @Serializer\ExclusionPolicy("all")
  */
-class Product
+class Product implements FilterableInterface, SortableInterface, PaginatableInterface
 {
+    const DEFAULT_PAGINATION_NUM_ITEMS = PaginatableInterface::DEFAULT_NUM_ITEMS;
     /**
      * @var int
      *
@@ -50,6 +55,7 @@ class Product
      *      "products_update",
      *      "carts_read",
      *      "carts_update",
+     *      "stocks_read",
      * })
      */
     private $name;
@@ -57,7 +63,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text", nullable=false)
+     * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @Serializer\Expose
      * @Serializer\Groups({
@@ -100,7 +106,7 @@ class Product
      *      "products_update",
      * })
      */
-    private $productType;
+    protected $productType;
 
     /**
      * @var string
@@ -181,6 +187,11 @@ class Product
      * @var Stock
      *
      * @ORM\OneToOne(targetEntity="Stock", mappedBy="product", cascade={"persist", "remove"})
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({
+     *      "products_list",
+     * })
      */
     protected $stock;
 
@@ -449,6 +460,48 @@ class Product
     public function getCartDetails()
     {
         return $this->cartDetails;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getDefaultSortOrder()
+    {
+        return [
+            'name' => SortableInterface::SORT_ORDER_ASC,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getOrdersMapping()
+    {
+        return [
+            'id'    => ['field' => 'id'],
+            'name'  => ['field' => 'name'],
+        ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultPaginationNumItems()
+    {
+        return static::DEFAULT_PAGINATION_NUM_ITEMS;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getFiltersMapping()
+    {
+        return [
+            'id'            => ['field' => 'id'],
+            'name'          => ['field' => 'name'],
+            'price'         => ['field' => 'price'],
+            'productType'   => ['field' => 'productType.id', 'join' => CollectionParamConverter::DOCTRINE_JOIN],
+        ];
     }
 }
 

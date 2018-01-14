@@ -29,6 +29,11 @@ class Stock
     /**
      * @var Product
      *
+     * @Serializer\Expose
+     * @Serializer\Groups({
+     *      "stocks_read",
+     * })
+     *
      * @ORM\OneToOne(targetEntity="Product", inversedBy="stock")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
@@ -42,6 +47,7 @@ class Stock
      * @Serializer\Expose
      * @Serializer\Groups({
      *      "products_read",
+     *      "products_list",
      *      "stocks_read",
      * })
      */

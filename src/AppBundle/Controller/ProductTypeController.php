@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ProductType;
+use AppBundle\Model\Collection;
 use AppBundle\Serializer\Exclusion\FieldsListExclusionStrategy;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Context\Context;
@@ -102,19 +103,20 @@ class ProductTypeController extends ApiController
      *
      * @Rest\Get("/product-types")
      *
+     * @ParamConverter("productTypes", class="AppBundle:ProductType", converter="collection_param_converter", options={"name"="productTypes"})
+     *
      * @param Request    $request
+     * @param Collection $productTypes
      *
      * @Security("is_granted('view')")
      *
      * @return View
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, Collection $productTypes)
     {
         if ('' !== $fields = $request->query->get('fields', '')) {
             $fields = array_merge(explode(',', $fields), ['product_types']);
         }
-
-        $productTypes = $this->get('app.manager.product_type')->findAll();
 
         return $this
             ->view($productTypes, Response::HTTP_OK)

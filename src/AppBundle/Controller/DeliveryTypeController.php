@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\DeliveryType;
+use AppBundle\Model\Collection;
 use AppBundle\Serializer\Exclusion\FieldsListExclusionStrategy;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Context\Context;
@@ -102,19 +103,20 @@ class DeliveryTypeController extends ApiController
      *
      * @Rest\Get("/delivery-types")
      *
+     * @ParamConverter("deliveryTypes", class="AppBundle:DeliveryType", converter="collection_param_converter", options={"name"="deliveryTypes"})
+     *
      * @param Request    $request
+     * @param Collection    $deliveryTypes
      *
      * @Security("is_granted('view')")
      *
      * @return View
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, Collection $deliveryTypes)
     {
         if ('' !== $fields = $request->query->get('fields', '')) {
             $fields = array_merge(explode(',', $fields), ['delivery_types']);
         }
-
-        $deliveryTypes = $this->get('app.manager.delivery_type')->findAll();
 
         return $this
             ->view($deliveryTypes, Response::HTTP_OK)

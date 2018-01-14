@@ -19,7 +19,7 @@ class ProductType extends AbstractType
         $builder
             ->add('name',       'Symfony\Component\Form\Extension\Core\Type\TextType')
             ->add('description','Symfony\Component\Form\Extension\Core\Type\TextareaType')
-            ->add('price',      'Symfony\Component\Form\Extension\Core\Type\IntegerType')
+            ->add('price',      'Symfony\Component\Form\Extension\Core\Type\MoneyType')
             ->add('photoFile',  'Symfony\Component\Form\Extension\Core\Type\TextType')
             ->add('productType','AppBundle\Form\SelectorType\ProductTypeSelectorType')
         ;
